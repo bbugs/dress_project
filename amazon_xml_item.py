@@ -15,6 +15,10 @@ class AmazonXMLItem(object):
 
         self.image_xpath = "./{}LargeImage/{}URL".format(self.nspace, self.nspace)
 
+        self.attribute_element = None
+        if 'ItemAttributes' in dir(self.item):
+            self.attribute_element = self.item.ItemAttributes
+
 
     def get_asin(self):
         return self.item.ASIN.text
@@ -28,8 +32,8 @@ class AmazonXMLItem(object):
 
     def get_title(self):
         title = ''
-        if 'ItemAttributes' in dir(self.item):
-            title = self.item.ItemAttributes.Title.text
+        if self.attribute_element is not None and 'Title' in dir(self.attribute_element):
+            title = self.attribute_element.Title.text
         return title
 
     def get_editorial(self):
@@ -41,9 +45,8 @@ class AmazonXMLItem(object):
 
     def get_attributes(self):
         attributes = {}
-        if 'ItemAttributes' in dir(self.item):
-            attribute_element = self.item.ItemAttributes[0]
-            for c in attribute_element.getchildren():
+        if self.attribute_element is not None:
+            for c in self.attribute_element.getchildren():
                 tag = c.tag.replace(self.nspace, '')
                 # title, color, brand and feature are separate
                 if tag == 'Title' or tag == 'Feature' or tag == 'Color' or tag == 'Brand':
@@ -56,24 +59,21 @@ class AmazonXMLItem(object):
 
     def get_all_features(self):
         features = []
-        attribute_element = self.item.ItemAttributes[0]
-        if 'Feature' in dir(attribute_element):
-            features = attribute_element.findall(self.nspace + 'Feature')
+        if 'Feature' in dir(self.attribute_element):
+            features = self.attribute_element.findall(self.nspace + 'Feature')
             features = [f.text for f in features]
         return features
 
     def get_brand(self):
         brand = ''
-        attribute_element = self.item.ItemAttributes[0]
-        if 'Brand' in dir(attribute_element):
-            brand = attribute_element.Brand.text
+        if 'Brand' in dir(self.attribute_element):
+            brand = self.attribute_element.Brand.text
         return brand
 
     def get_color(self):
         color = ''
-        attribute_element = self.item.ItemAttributes[0]
-        if 'Color' in dir(attribute_element):
-            color = attribute_element.Color.text
+        if 'Color' in dir(self.attribute_element):
+            color = self.attribute_element.Color.text
         return color
 
 

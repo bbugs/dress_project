@@ -1,11 +1,17 @@
 """
 Create initial json file
 
+INPUT: /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml
+
+OUTPUT:  data0.json
+
+Notes:
 xml files live in
 /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml
 
 images live in
 /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images
+
 
 """
 import os
@@ -31,6 +37,8 @@ def init_dress_dict():
 # check directories for files
 rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml/'
 folders = [f for f in os.listdir(rpath) if not f.startswith(".")]
+
+
 
 data = {}
 data['dresses'] = []  # a list of dictionaries

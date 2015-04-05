@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<!--Code to generate options from comma-separated items -->
+
+{% assign array = all_lines | split: "<br/>" %}
+<cml:checkboxes name="lines" validates="required" label="Please select the sentences that describe the image">
+    {% for option in array}
+    <cml:checkbox value="{{option}}" label="{{option}}" />
+
+    {% endfor %}
+
+</cml:checkboxes>
+
+</body>
+</html>
