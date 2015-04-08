@@ -1,7 +1,9 @@
 """
 Create initial json file
 
-INPUT: /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml
+INPUT: /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images
+Note: we use the images directory and not the xml directory because images have been cleaned for duplicates
+and they are guaranteed to have the image, whereas the xml does not know which images are not present
 
 OUTPUT:  data0.json
 
@@ -35,9 +37,10 @@ def init_dress_dict():
 
 # get xml files for each directory
 # check directories for files
-rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml/'
-folders = [f for f in os.listdir(rpath) if not f.startswith(".")]
+r_xml_path = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml/'
+folders = [f for f in os.listdir(r_xml_path) if not f.startswith(".")]
 
+r_img_path = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images/'
 
 
 data = {}
@@ -45,14 +48,18 @@ data['dresses'] = []  # a list of dictionaries
 data['asin2imgid2folder'] = {}
 data['folder2asin2imgid'] = {}
 
+
+
 imgid = 0
 for folder in folders:
-    p = rpath + folder
-    asins = [f for f in os.listdir(p) if not f.startswith(".")]
+    img_path = r_img_path + folder
+    asins = [f for f in os.listdir(img_path) if not f.startswith(".")] # take the asins from the image folder
+
+    xml_path = r_xml_path + folder
     for asin in asins:
         # initialize dress dictionary
         dress = init_dress_dict()
-        xml_file_name = p + '/' + asin
+        xml_file_name = xml_path + '/' + asin.replace(".jpg", "") + '.xml'
         axml = AmazonXMLItem(xml_file_name)
 
         # populate dress dictionary with info from the xml
@@ -67,7 +74,7 @@ for folder in folders:
         dress['other'] = axml.get_attributes()
         imgid += 1
         data['dresses'].append(dress)
-        asin = asin.replace(".xml", "")
+        asin = asin.replace(".jpg", "")
         assert asin == dress['asin']
         data['asin2imgid2folder'][asin] = (imgid, folder)
         if folder not in data['folder2asin2imgid']:
