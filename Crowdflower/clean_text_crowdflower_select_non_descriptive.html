@@ -1,0 +1,76 @@
+Select phrases that DO NOT visually describe the image
+
+###Overview
+In this task, you will select (check mark) phrases that <b>DO NOT</b> visually describe the dress in the image.   Specifically, you need to select phrases that <b>DO NOT</b> contain <b>visual</b> attributes of the dress.  A visual attribute refers to a characteristic that can be <b>observed</b> in the image.
+
+###We Provide
+- An image of a dress or similar garment.
+- A list of phrases or sentences associated with the dress.
+
+###Your Task
+1.  Look and study the image carefully.
+2.  Read each phrase carefully.
+3.  For each phrase, determine if the phrase does not contain any visual attributes of the dress.  By visual attributes we mean characteristics that can be <b>seen</b> in the image.
+4.  Select (check mark) ONLY the phrases that DO NOT contain any visual attributes of the dress.
+5.  Check mark the last item "done" to indicate that you are done with this item and you have assessed each phrase.
+
+###  Examples of phrases that must be selected (check-marked):
+- Information about specific sizes or measurements, e.g., "S", "M", "L", "4-16", "Waist: 60cm", "Bust: 90 cm", "Length: 100cm"  etc.
+- Information about where it was made: "Made in the USA", "imported", etc.
+- Non descriptive codes and numbers, e.g., "SKU#:1020277", ""
+- Information about how to wash it: "machine wash cold", "tumble dry low", etc.
+- Details about the back or inside that are not visible in the image, e.g., "Back Details: Zipper-up", "Fully-lined", etc.
+- A non-descriptive comment about the color.  For example: "color as in the picture".  This should be checked because it doesn't mention the actual color.
+- All price information: "$75", "$100", etc.
+- All shipping and weight information:  "2.5 Kg", "ships in a week", etc.
+- Other instructions from the seller: "Don't hesitate to call us for more information", "Please refer to the size chart", etc.
+- Other non-descriptive comments: "You will look stunning on this dress", "Perfect for any occasion", etc.
+- Other available colors not present in the image.
+
+
+### Examples of phrases that must <b>NOT</b> be selected (leave <b>unchecked</b>):
+-  Shapes of the neckline: "One-Shoulder", "V-neck", "Scoop", "Sweetheart", "Turtleneck", "Boat Neck" etc.
+-  Silhouette shapes: "A-line", "Column Dress", etc.
+-  Shape and length of sleeves: "Sleeveless", "short sleeves", "3/4 sleeves", "long sleeves", "strapless", etc.
+-  Shape and length of skirt:  "knee length", "short", "asymmetrical", "floor-length", etc.
+-  Shape of the hemline:  "Straight hemline", "Asymmetric hemline", etc.
+-  Descriptive information about the color: "blue", "purple", "yellow", "with black stripes", etc.
+-  Texture:  "Ruffles", "Laces", "Flowers", "Embroidery", "Ruched", "Beaded", "draped", etc.
+-  Patterns:  "Floral print", "horizontal stripes", "chevron", "zebra print", etc.
+-  Other visual attributes present in the image.
+
+
+<!--
+# Some ambiguous examples
+You will find that some attributes are a bit difficult to place as visually descriptive or non-descriptive.
+-->
+
+### Important
+- Some phrases contain many words. The phrase must be checked if it contains <b>NO</b> visual attribute that describes the dress in the image.
+- If there are words or phrases that you are nor familiar with, use google to clarify whether they refer to an attribute of the dress.
+- Please follow the instructions carefully.
+<!--
+# Some ambiguous examples
+You will find that some attributes are a bit difficult to place as visually descriptive or non-descriptive.
+-->
+
+
+<p><strong>Image:</strong></p>
+<p>&#160;
+<img src="{{img_dir}}">&#160;</p>
+<!-- <p><strong>Product Features:</strong>
+<img class="var" title="amz_features" src="http://chart.apis.google.com/chart?cht=ls&chtt={{+amz_features+}}&chts=0088cc,16&chs=126x25" style="width:126px;height:25px" /></p>
+<p><strong>Further Description:</strong>
+<img class="var" title="amz_editorial" src="http://chart.apis.google.com/chart?cht=ls&chtt={{+amz_editorial+}}&chts=0088cc,16&chs=127x25" style="width:127px;height:25px" /></p>
+ --><p>&#160;</p>
+<h3>Brand:
+{{brand}} </h3><p>
+{% assign array = sentences | split: "\%" %}</p>
+<p>&#160;</p>
+<cml:checkboxes name="sentences" validates="required" label="Please select the phrases that DO NOT contain any visual attributes observed in the image" gold="true">
+    {% for option in array %}
+    <cml:checkbox value="{{option}}" label="{{option}}"/>
+    {% endfor %}
+</cml:checkboxes>
+
+
