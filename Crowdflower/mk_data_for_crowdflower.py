@@ -83,7 +83,7 @@ for dress in data0['dresses'][0:100]:
 
     clean_sents = get_sentences(all_text)
     # convert sentences to string separated by " \n"
-    str_sents = "\%\*".join(clean_sents).encode('utf-8')
+    str_sents = "\%".join(clean_sents).encode('utf-8')
     #str_sents = "\%".join(clean_sents)
     #print str_sents
 
