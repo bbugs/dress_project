@@ -2,41 +2,33 @@
 Print sentences to screen and press 0 to exclude the sentence or any other key to include it.
 
 Two files are generated:
-excluded_phrases.csv
-included_phrases.csv
+excluded_phrases.pkl
+included_phrases.pkl
 
 It builds up on these files everytime this script is run, it opens up these files and it keeps populating them.
 
 """
 
 from utils_local import utils_local
+import pickle
 import csv
 import random
 
-
-excluded_fname = 'excluded_phrases.csv'
+excluded_fname = 'excluded_phrases.pkl'
 excluded_sentences = utils_local.get_stored_sentences(excluded_fname)
 
-included_fname = 'included_phrases.csv'
+included_fname = 'included_phrases.pkl'
 included_sentences = utils_local.get_stored_sentences(included_fname)
 
 #i = 239 #1224  #357
 
 
-excluded_file = open(excluded_fname, 'a')
-excluded_writer = csv.writer(excluded_file)
-
-included_file = open(included_fname, 'a')
-included_writer = csv.writer(included_file)
-
-
 data0 = utils_local.load_data0(fname='../data0.json')
 
-n = 3
+n = 3  # number of dresses to evaluate
 
-
-dresses = data0['dresses'][0:n]
-#dresses = random.sample(dresses, n)
+dresses = data0['dresses']
+dresses = random.sample(dresses, n)
 
 for dress in dresses:
     #dress0 = data0['dresses'][i]
@@ -61,12 +53,12 @@ for dress in dresses:
         if sent in excluded_sentences:
             print "EXCLUDED already:"
             print "sent", sent
-            raw_input("excluded. press any key to continue")
+            #raw_input("excluded. press any key to continue")
             continue
 
         elif sent in included_sentences:
             print "included already", sent
-            raw_input("included press any key to continue")
+            #raw_input("included press any key to continue")
             continue
 
         print "evaluate the following sentence"
@@ -77,22 +69,25 @@ for dress in dresses:
         if option == '0':
             # place it in the excluded set
             excluded_sentences.add(sent)
-            info = (sent.encode('utf-8'),)
             print "writing to excluded file"
-            raw_input("any key to continue")
-            excluded_writer.writerow(info)
+            #raw_input("any key to continue")
+
 
         else:
             # put it on the csv file for crowdflower
             included_sentences.add(sent)
-            info = (sent.encode('utf-8'),)
             print "writint to INcluded file"
-            raw_input("press any key to continue")
-            included_writer.writerow(info)
+            # raw_input("press any key to continue")
+
         print "\n"
 
+sfile = open(excluded_fname, "wb")
+pickle.dump(excluded_sentences, sfile)
+sfile.close()
 
-excluded_file.close()
-included_file.close()
+sfile = open(included_fname, "wb")
+pickle.dump(included_sentences, sfile)
+sfile.close()
+
 
 
