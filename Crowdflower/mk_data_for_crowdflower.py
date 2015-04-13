@@ -1,50 +1,11 @@
 
 import nltk
 import nltk.data
-import utils_local
+from utils_local import utils_local
 import csv
 
 
 import zTextProcessing as zt
-
-# load punctuation
-sent_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-
-
-def get_sentences(all_text, verbose=0):
-    """(list of strings) -> list of sentences (str)
-
-    """
-    sents = []  # clean sentences
-    for item in all_text:
-        # print item
-        # tokenize into sentences
-        temp_sentences = sent_tokenizer.tokenize(item)
-        for s in temp_sentences:
-            #print s
-            s1 = s.replace("<br />", "<br>")
-            s1 = s1.replace("<br/>", "<br>")
-            if s1:
-                sents.append(s1)
-
-    clean_sents = []
-    for s in sents:
-        s2 = s.split("<br>")
-        for ss in s2:
-            #print ss
-            # s3 = ss.replace("<br />", "  ")
-            # s3 = ss.replace("<br/>", "  ")
-            s3 = zt.strip_tags(ss)  # strip html tags
-            s4 = s3.replace("\n\n", "\%")
-            s4 = s4.replace("\n", "\%")
-            clean_sents.append(s4)
-
-    if verbose:
-        for s in clean_sents:
-            print s, '\n\n'
-
-    return clean_sents
-
 
 
 data0 = utils_local.load_data0(fname='../data0.json')
@@ -81,7 +42,7 @@ for dress in data0['dresses'][0:100]:
 
     all_text = [title] + features + [editorial] + ["done"]
 
-    clean_sents = get_sentences(all_text)
+    clean_sents = utils_local.get_sentences(all_text)
     # convert sentences to string separated by " \n"
     str_sents = "\%".join(clean_sents).encode('utf-8')
     #str_sents = "\%".join(clean_sents)
