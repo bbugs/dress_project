@@ -63,6 +63,8 @@ def get_sentences(all_text, verbose=0):
             #print s
             s1 = s.replace("<br />", "<br>")
             s1 = s1.replace("<br/>", "<br>")
+            s1 = s1.replace("\n\n", "<br>")
+            s1 = s1.replace("\n", "<br>")
             if s1:
                 sents.append(s1)
 
@@ -75,9 +77,7 @@ def get_sentences(all_text, verbose=0):
             # s3 = ss.replace("<br/>", "  ")
             s3 = zt.strip_tags(ss)  # strip html tags
             if not s3.isspace():
-                s4 = s3.replace("\n\n", "\%")
-                s4 = s4.replace("\n", "\%")
-                clean_sents.append(s4)
+                clean_sents.append(s3)
 
     if verbose:
         for s in clean_sents:
