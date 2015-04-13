@@ -28,10 +28,16 @@ def get_stored_sentences(fname):
 
     else:
         sfile = open(fname, "r")
-        sentences = [sentence.strip() for sentence in sfile.readlines()]
+
+        # for s in sfile.readlines():
+        #     print s
+        #     print s.strip()
+
+        sentences = [sentence for sentence in sfile.readlines()]
+        print "number of sentences in the list", len(sentences)
         #print sentences[-1]
         sentences = set(sentences)
-        print "number of sentences", len(sentences)
+        print "number of sentences in the set", len(sentences)
         sfile.close()
 
     return sentences
@@ -66,9 +72,10 @@ def get_sentences(all_text, verbose=0):
             # s3 = ss.replace("<br />", "  ")
             # s3 = ss.replace("<br/>", "  ")
             s3 = zt.strip_tags(ss)  # strip html tags
-            s4 = s3.replace("\n\n", "\%")
-            s4 = s4.replace("\n", "\%")
-            clean_sents.append(s4)
+            if not s3.isspace():
+                s4 = s3.replace("\n\n", "\%")
+                s4 = s4.replace("\n", "\%")
+                clean_sents.append(s4)
 
     if verbose:
         for s in clean_sents:
@@ -77,5 +84,6 @@ def get_sentences(all_text, verbose=0):
     return clean_sents
 
 if __name__ == '__main__':
-    excluded_fname = 'excluded_phrases.csv'
-    get_stored_sentences(excluded_fname)
+    excluded_fname = '/Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/projects/dress_project/Crowdflower/excluded_phrases.csv'
+    sentences = get_stored_sentences(excluded_fname)
+    print sentences

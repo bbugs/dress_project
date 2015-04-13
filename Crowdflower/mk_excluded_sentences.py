@@ -35,8 +35,8 @@ data0 = utils_local.load_data0(fname='../data0.json')
 n = 3
 
 
-dresses = data0['dresses']
-dresses = random.sample(dresses, n)
+dresses = data0['dresses'][0:n]
+#dresses = random.sample(dresses, n)
 
 for dress in dresses:
     #dress0 = data0['dresses'][i]
@@ -51,6 +51,7 @@ for dress in dresses:
 
     all_text = [title] + features + [editorial]
 
+    # make a list of all sentences including title, features and editorial review
     processed_sents = utils_local.get_sentences(all_text, verbose=0)
 
     for sent in processed_sents:
@@ -58,11 +59,17 @@ for dress in dresses:
         sent = sent.lower()
 
         if sent in excluded_sentences:
+            print "EXCLUDED already:"
+            print "sent", sent
+            raw_input("excluded. press any key to continue")
             continue
 
-        if sent in included_sentences:
+        elif sent in included_sentences:
+            print "included already", sent
+            raw_input("included press any key to continue")
             continue
 
+        print "evaluate the following sentence"
         print sent
         option = raw_input("Press 0 to exclude:\n ")
 
@@ -71,12 +78,16 @@ for dress in dresses:
             # place it in the excluded set
             excluded_sentences.add(sent)
             info = (sent.encode('utf-8'),)
+            print "writing to excluded file"
+            raw_input("any key to continue")
             excluded_writer.writerow(info)
 
         else:
             # put it on the csv file for crowdflower
             included_sentences.add(sent)
             info = (sent.encode('utf-8'),)
+            print "writint to INcluded file"
+            raw_input("press any key to continue")
             included_writer.writerow(info)
         print "\n"
 
