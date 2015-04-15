@@ -17,6 +17,15 @@ def write_line2txt(line, file_object):
         file_object.write(l, ",")
     pass
 
+def remove_space(sentence_set):
+    """(set of strings) -> set of strings
+    given a set of sentences, remove spaces to compare
+    """
+    new_set = set()
+    for s in sentence_set:
+        new_set.add("".join(s.split()))
+    return new_set
+
 
 def get_stored_sentences(fname):
     """(str) -> set
@@ -24,6 +33,7 @@ def get_stored_sentences(fname):
     It could be the excluded sentences or the included ones
     """
     if not os.path.isfile(fname):
+        print "file does not yet exist. creating new file. "
         sfile = open(fname, "wb")
         sfile.close()
         sentences = set()

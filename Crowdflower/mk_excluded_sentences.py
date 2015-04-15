@@ -25,7 +25,7 @@ included_sentences = utils_local.get_stored_sentences(included_fname)
 
 data0 = utils_local.load_data0(fname='../data0.json')
 
-n = 3  # number of dresses to evaluate
+n = 10  # number of dresses to evaluate
 
 dresses = data0['dresses']
 dresses = random.sample(dresses, n)
@@ -49,6 +49,9 @@ for dress in dresses:
     for sent in processed_sents:
         #print '\n', sent
         sent = sent.lower()
+
+
+
 
         if sent in excluded_sentences:
             print "EXCLUDED already:"

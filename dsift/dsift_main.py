@@ -4,7 +4,7 @@ images live in
 """
 
 
-import utils_local
+from utils_local import utils_local
 from pcv.local_descriptors import dsift, sift
 import numpy as np
 from PIL import Image
