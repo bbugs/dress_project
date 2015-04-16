@@ -1,4 +1,5 @@
 """
+
 Create initial json file
 
 INPUT: /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images
@@ -52,6 +53,8 @@ data['folder2asin2imgid'] = {}
 
 imgid = 0
 for folder in folders:
+    # TODO: consider having a separate file (csv or txt) with all the
+    # images to process, instead of reading this directory
     img_path = r_img_path + folder
     asins = [f for f in os.listdir(img_path) if not f.startswith(".")] # take the asins from the image folder
 
