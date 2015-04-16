@@ -16,9 +16,12 @@ import random
 
 excluded_fname = 'excluded_phrases.pkl'
 excluded_sentences = utils_local.get_stored_sentences(excluded_fname)
+excluded_sentences = utils_local.remove_space(excluded_sentences)
+
 
 included_fname = 'included_phrases.pkl'
 included_sentences = utils_local.get_stored_sentences(included_fname)
+
 
 #i = 239 #1224  #357
 
@@ -45,6 +48,8 @@ for dress in dresses:
 
     # make a list of all sentences including title, features and editorial review
     processed_sents = utils_local.get_sentences(all_text, verbose=0)
+
+
 
     for sent in processed_sents:
         #print '\n', sent
