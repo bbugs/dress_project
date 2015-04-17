@@ -11,7 +11,6 @@ It builds up on these files everytime this script is run, it opens up these file
 
 from utils_local import utils_local
 import pickle
-import csv
 import random
 
 excluded_fname = 'excluded_phrases.pkl'

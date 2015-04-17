@@ -27,32 +27,7 @@ def remove_space(sentence_set):
     return new_set
 
 
-def get_stored_sentences(fname):
-    """(str) -> set
-    Get a set of sentences stored in fname using pickle
-    It could be the excluded sentences or the included ones
-    """
-    if not os.path.isfile(fname):
-        print "file does not yet exist. creating new file. "
-        sfile = open(fname, "wb")
-        sfile.close()
-        sentences = set()
 
-    else:
-        sfile = open(fname, "rb")
-
-        # for s in sfile.readlines():
-        #     print s
-        #     print s.strip()
-
-        sentences = pickle.load(sfile)
-        print "number of sentences in the list", len(sentences)
-        #print sentences[-1]
-        sentences = set(sentences)
-        print "number of sentences in the set", len(sentences)
-        sfile.close()
-
-    return sentences
 
 
 def get_sentences(all_text, verbose=0):
