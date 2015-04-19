@@ -3,7 +3,22 @@ import pickle
 from utils_local import utils_local
 
 
+to_include = ['neckline', 'aline', 'vneck', 'sheath', 'ruched', 'scoopneck',
+              'shortsleev', 'fulllength', 'strapless', 'capsleeve', 'sweetheart',
+              'aplique', 'empire', 'column', 'ruffle', 'pleated', 'straps', 'boatneck',
+              'sleeveless', 'rouche', 'cashmere', 'longsleeve', 'squareneck', 'leather',
+              'silk', 'halter', 'silver', 'satin', 'chiffon', 'pink', 'purple','mermaid',
+              'floorlength', 'organza', 'beading', '34sleeve', '34lengthsleeve', 'lengthsleeve', 'sleevejacket', 'roundneck', 'longdress', 'shortdress', 'floral', 'taffeta', 'eveningdress', 'promdress', 'beachdress', 'cotton', 'polyester', 'white', 'black', 'linen', 'rayon', 'mesh', 'nylon','wool', 'asymmetric', 'grecian', 'turtleneck', 'pencil','drape', 'dropwaist']
 
+
+def is_in_set(comp_sent):
+    result = False
+    for s in to_include:
+        if s in comp_sent:
+            #print s, " in ", comp_sent
+            result = True
+            break
+    return result
 
 
 
@@ -29,16 +44,19 @@ class SentenceRemover():
 
 
 
-    def get_user_input(self, sentence, verbose=0):
+    def get_user_input(self, sentence, verbose=0, very_verbose=0):
         """
         given a human-readable sentence, indicate
         """
 
         comp_sent = self.mk_sent_comparable(sentence)
-        if verbose:
-            print "original sentence: \n", sentence
-            print "comparable sentence: \n", comp_sent
-            raw_input("press any key to continue")
+        # if very_verbose:
+        #     print "original sentence: \n", sentence
+        #     print "comparable sentence: \n", comp_sent
+        #     raw_input("press any key to continue")
+
+
+
 
         if comp_sent in self.excluded_sentences:
             if verbose:
@@ -47,13 +65,24 @@ class SentenceRemover():
                 raw_input("excluded. press any key to continue")
             return
 
+
         elif comp_sent in self.included_sentences:
             if verbose:
                 print "included already", sentence
                 raw_input("included press any key to continue")
             return
 
-        print "evaluate the following sentence"
+        elif is_in_set(comp_sent):
+            self.included_sentences.add(comp_sent)
+            #print "comp_sent included\n", comp_sent
+            #raw_input("press any key to continue")
+            return
+
+
+
+
+
+        print "evaluate the following sentence\n"
         print sentence
         option = raw_input("Press 0 to exclude:\n ")
 
@@ -62,14 +91,16 @@ class SentenceRemover():
             self.excluded_sentences.add(comp_sent)
             print "added to excluded set"
             # raw_input("any key to continue")
+            return
 
         else:
             # put it on the csv file for crowdflower
             self.included_sentences.add(comp_sent)
             print "added to INcluded set"
             # raw_input("press any key to continue")
+            return
 
-        print "\n"
+
 
     def mk_sent_comparable(self, sentence):
         """
@@ -125,6 +156,16 @@ class SentenceRemover():
         sfile = open(self.included_fname, "wb")
         pickle.dump(self.included_sentences, sfile)
         sfile.close()
+
+if __name__ == '__main__':
+    excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
+    included_fname = 'data_manager/preprocess/included_phrases.pkl'
+
+    d = SentenceRemover(excluded_fname, included_fname)
+
+    s = 'squareneck'
+
+    print is_in_set(s)
 
 
 
