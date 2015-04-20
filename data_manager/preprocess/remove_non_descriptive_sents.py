@@ -65,24 +65,6 @@ for sent in sent_list:
 
 
 
-#
-# for dress in dresses:
-#     #dress0 = data0['dresses'][i]
-#
-#     features = dress['features']  # list of strings
-#     editorial = dress['editorial']  # string
-#     title = dress['title']  # string
-#
-#     all_text = [title] + features + [editorial]
-#
-#     # make a list of all sentences including title, features and editorial review
-#     processed_sents = utils_local.get_sentences(all_text, verbose=0)
-#
-#     for sent in processed_sents:
-#         #print '\n', sent
-#         d.get_user_input(sent, verbose=1)
-#
-#     d.commit()
 
 
 

@@ -5,15 +5,17 @@ from utils_local import utils_local
 
 to_include = ['neckline', 'aline', 'vneck', 'sheath', 'ruched', 'scoopneck',
               'shortsleev', 'fulllength', 'strapless', 'capsleeve', 'sweetheart',
-              'aplique', 'empire', 'column', 'ruffle', 'pleated', 'straps', 'boatneck',
+              'aplique', 'applique', 'empire', 'column', 'ruffle', 'pleated', 'straps', 'boatneck',
               'sleeveless', 'rouche', 'cashmere', 'longsleeve', 'squareneck', 'leather',
               'silk', 'halter', 'silver', 'satin', 'chiffon', 'pink', 'purple','mermaid',
-              'floorlength', 'organza', 'beading', '34sleeve', '34lengthsleeve', 'lengthsleeve', 'sleevejacket', 'roundneck', 'longdress', 'shortdress', 'floral', 'taffeta', 'eveningdress', 'promdress', 'beachdress', 'cotton', 'polyester', 'white', 'black', 'linen', 'rayon', 'mesh', 'nylon','wool', 'asymmetric', 'grecian', 'turtleneck', 'pencil','drape', 'dropwaist']
+              'floorlength', 'organza', 'beading', '34sleeve', '34lengthsleeve', 'lengthsleeve', 'sleevejacket', 'roundneck', 'longdress', 'shortdress', 'floral', 'taffeta', 'eveningdress', 'promdress', 'beachdress', 'cotton', 'polyester', 'white', 'black', 'linen', 'rayon', 'mesh', 'nylon','wool', 'asymmetric', 'grecian', 'turtleneck', 'pencil','drape', 'dropwaist', 'plussize', 'ruching', 'beaded', 'appliques', 'lace', 'cinche', 'oneshoulder', 'tulle', 'kneelength', 'hilow', 'offshoulder', 'scallop', 'tencel', 'crisscross', 'sweaterdress', 'vintage']
 
 
-def is_in_set(comp_sent):
+
+
+def is_in_set(comp_sent, keyword_list):
     result = False
-    for s in to_include:
+    for s in keyword_list:
         if s in comp_sent:
             #print s, " in ", comp_sent
             result = True
@@ -72,7 +74,7 @@ class SentenceRemover():
                 raw_input("included press any key to continue")
             return
 
-        elif is_in_set(comp_sent):
+        elif is_in_set(comp_sent, to_include):
             self.included_sentences.add(comp_sent)
             #print "comp_sent included\n", comp_sent
             #raw_input("press any key to continue")
