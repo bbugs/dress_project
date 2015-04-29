@@ -34,6 +34,7 @@ def get_sentences(all_text, verbose=0):
     """(list of strings) -> list of sentences (str)
     group into a list of sentences title, features and editorial
     editorial is broken into sentences.
+    all_text refers to all the text in ONE dress, i.e., title, features, and editorial
 
     """
     # load punctuation
