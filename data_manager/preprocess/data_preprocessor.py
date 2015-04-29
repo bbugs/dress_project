@@ -4,6 +4,9 @@ using user input.  This is a very painful and manual process, where each sentenc
 where a word in to_exclude (e.g., size, chart, deliver, etc), is presented to the
 user and the user indicates whether it should be excluded or included.
 
+if there is a word from to_include, the user is not asked for input and the sentence goes
+automatically to the included sentence set.
+
 Some probles is that
 
 """
@@ -55,7 +58,7 @@ class SentenceRemover():
         self.included_sentences = self.get_stored_sentences(included_fname)
         # characters to replace
         self.to_replace = """/_,-.?!':"(){};+$%^&*<>@#+=[]|"""
-        pass
+
 
 
 

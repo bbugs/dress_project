@@ -1,7 +1,9 @@
 """
 Run this script to correct the sets of excluded or included sentences
 
-There are two lists of errors
+There are two lists of errors, e, i.
+
+I loop over these lists and update the set of excluded_sentences and the set of included_sentences.
 """
 
 
