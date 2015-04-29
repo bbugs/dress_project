@@ -71,22 +71,8 @@ def get_sentences(all_text, verbose=0):
     return clean_sents
 
 if __name__ == '__main__':
-    excluded_fname = '/Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/projects/dress_project/Crowdflower/excluded_phrases.pkl'
-    sentences = get_stored_sentences(excluded_fname)
-    for s in sentences:
-        print s
 
-    # examples of excluded sentences:
+    # see remove_using_keywords.py
+    pass
 
-    #     if you need it within 2 weeks, please contact our customer service via amazon before placing the order
-    # in order for your return or exchange to be accepted, we advise you to follow these steps:
-    # 6.
-    #  custom-made notes
-    # please kindly refer to our size chart images.do not refer other size chart!
-    # please refer to the pacificplex junior formal size chart for this item
-    # find your hip bones and measure there.
-    # )
-    # expected ship date:we will cost about 6-15 days to make for different dresses, if have any problems, please email us.
-    # buyers must select their size from the size chart.
-    # each customized item is unique.
 

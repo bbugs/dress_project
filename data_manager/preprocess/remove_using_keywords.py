@@ -76,30 +76,22 @@ for sent in sent_list:
 
 
 
+# examples of excluded sentences:
+
+#     if you need it within 2 weeks, please contact our customer service via amazon before placing the order
+# in order for your return or exchange to be accepted, we advise you to follow these steps:
+# 6.
+#  custom-made notes
+# please kindly refer to our size chart images.do not refer other size chart!
+# please refer to the pacificplex junior formal size chart for this item
+# find your hip bones and measure there.
+# )
+# expected ship date:we will cost about 6-15 days to make for different dresses, if have any problems, please email us.
+# buyers must select their size from the size chart.
+# each customized item is unique.
 
 
 
-
-
-
-#
-# for dress in dresses:
-#     #dress0 = data0['dresses'][i]
-#
-#     features = dress['features']  # list of strings
-#     editorial = dress['editorial']  # string
-#     title = dress['title']  # string
-#
-#     all_text = [title] + features + [editorial]
-#
-#     # make a list of all sentences including title, features and editorial review
-#     processed_sents = utils_local.get_sentences(all_text, verbose=0)
-#
-#     for sent in processed_sents:
-#         #print '\n', sent
-#         d.get_user_input(sent, verbose=1)
-#
-#     d.commit()
 
 
 
