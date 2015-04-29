@@ -112,17 +112,23 @@ class SentenceRemover():
             return
 
 
-    def rectify_exclude(self, sentence):
+    def rectify_excluded(self, sentence):
         """
         Remove sentence from the excluded set and commit
         """
         new_sent = self.mk_sent_comparable(sentence)
         if new_sent in self.excluded_sentences:
             self.excluded_sentences.remove(new_sent)
-        pass
+            self.included_sentences.add(new_sent)
+        return
 
-    def rectify_include(self, sentence):
-        pass
+    def rectify_included(self, sentence):
+        new_sent = self.mk_sent_comparable(sentence)
+        if new_sent in self.included_sentences:
+            self.included_sentences.remove(new_sent)
+            self.excluded_sentences.add(new_sent)
+
+        return
 
 
     def mk_sent_comparable(self, sentence):
@@ -181,10 +187,12 @@ class SentenceRemover():
         sfile.close()
 
 if __name__ == '__main__':
+
     excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
     included_fname = 'data_manager/preprocess/included_phrases.pkl'
 
     d = SentenceRemover(excluded_fname, included_fname)
+
 
     s = 'squareneck'
 
