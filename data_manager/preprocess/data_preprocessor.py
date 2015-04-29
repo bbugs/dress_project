@@ -1,3 +1,16 @@
+"""
+This module and class are used for remove_using_keywords.py to clean sentences
+using user input.  This is a very painful and manual process, where each sentence
+where a word in to_exclude (e.g., size, chart, deliver, etc), is presented to the
+user and the user indicates whether it should be excluded or included.
+
+Some probles is that
+
+"""
+
+
+
+
 import os
 import pickle
 from utils_local import utils_local
@@ -8,7 +21,7 @@ to_include = ['neckline', 'aline', 'vneck', 'sheath', 'ruched', 'scoopneck',
               'aplique', 'applique', 'empire', 'column', 'ruffle', 'pleated', 'straps', 'boatneck',
               'sleeveless', 'rouche', 'cashmere', 'longsleeve', 'squareneck', 'leather',
               'silk', 'halter', 'silver', 'satin', 'chiffon', 'pink', 'purple','mermaid',
-              'floorlength', 'organza', 'beading', '34sleeve', '34lengthsleeve', 'lengthsleeve', 'sleevejacket', 'roundneck', 'longdress', 'shortdress', 'floral', 'taffeta', 'eveningdress', 'promdress', 'beachdress', 'cotton', 'polyester', 'white', 'black', 'linen', 'rayon', 'mesh', 'nylon','wool', 'asymmetric', 'grecian', 'turtleneck', 'pencil','drape', 'dropwaist', 'plussize', 'ruching', 'beaded', 'appliques', 'lace', 'cinche', 'oneshoulder', 'tulle', 'kneelength', 'hilow', 'offshoulder', 'scallop', 'tencel', 'crisscross', 'sweaterdress', 'vintage']
+              'floorlength', 'organza', 'beading', '34sleeve', '34lengthsleeve', 'lengthsleeve', 'sleevejacket', 'roundneck', 'longdress', 'shortdress', 'floral', 'taffeta', 'eveningdress', 'promdress', 'beachdress', 'cotton', 'polyester', 'white', 'black', 'linen', 'rayon', 'mesh', 'nylon','wool', 'asymmetric', 'grecian', 'turtleneck', 'pencil','drape', 'dropwaist', 'plussize', 'ruching', 'beaded', 'appliques', 'lace', 'cinche', 'oneshoulder', 'tulle', 'kneelength', 'hilow', 'offshoulder', 'scallop', 'tencel', 'crisscross', 'sweaterdress', 'vintage', 'draping', 'fallsbelowtheknee', 'endsbelowtheknee', 'cinch']
 
 
 
@@ -41,7 +54,7 @@ class SentenceRemover():
         self.excluded_sentences = self.get_stored_sentences(excluded_fname)
         self.included_sentences = self.get_stored_sentences(included_fname)
         # characters to replace
-        self.to_replace = """/_,-.?!':"(){};+$%^&*<>@#+=[]"""
+        self.to_replace = """/_,-.?!':"(){};+$%^&*<>@#+=[]|"""
         pass
 
 
@@ -57,9 +70,7 @@ class SentenceRemover():
         #     print "comparable sentence: \n", comp_sent
         #     raw_input("press any key to continue")
 
-
-
-
+        # if already in excluded_sentences, no need to get user input, return
         if comp_sent in self.excluded_sentences:
             if verbose:
                 print "EXCLUDED already:"
@@ -67,22 +78,20 @@ class SentenceRemover():
                 raw_input("excluded. press any key to continue")
             return
 
-
+        # if already in included sentences, no need to get user input,  return
         elif comp_sent in self.included_sentences:
             if verbose:
                 print "included already", sentence
                 raw_input("included press any key to continue")
             return
 
+        # if an interesting word occurs (from to_include set), no need for user input
+        # just include to the included set
         elif is_in_set(comp_sent, to_include):
             self.included_sentences.add(comp_sent)
             #print "comp_sent included\n", comp_sent
             #raw_input("press any key to continue")
             return
-
-
-
-
 
         print "evaluate the following sentence\n"
         print sentence
@@ -102,6 +111,18 @@ class SentenceRemover():
             # raw_input("press any key to continue")
             return
 
+
+    def rectify_exclude(self, sentence):
+        """
+        Remove sentence from the excluded set and commit
+        """
+        new_sent = self.mk_sent_comparable(sentence)
+        if new_sent in self.excluded_sentences:
+            self.excluded_sentences.remove(new_sent)
+        pass
+
+    def rectify_include(self, sentence):
+        pass
 
 
     def mk_sent_comparable(self, sentence):
