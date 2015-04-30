@@ -1,11 +1,25 @@
 """
+Populate excluded_phrases.pkl and included_phrases.pkl from user input:
 
-Read the data00.json which contains
+Read the data00.json which contains a list of dictionary of dresses
+
+Get all the sentences from data00.json and sort them in sent_list
+
+Iterate over sent_list and ask the user for input if the sentence contains any word f
+from the to_exclude list
 
 """
 
 
-to_exclude = ['size', 'chart', 'deliver', 'days', 'cm', 'inch', 'inthepicture', 'please', 'plz', 'measurement', 'ship', 'expedite', 'dimension', 'help', 'email', 'call', 'contact', 'question', 'quality', 'problem', 'madein', 'sizing', 'send', 'buyer', 'dryclean', 'weight', 'wash', 'check', 'pls', 'price', 'refer', 'policy', 'return', 'refund', 'onsale', 'question', 'machine', 'visit', 'waisttoknee', '"', 'trademark']
+to_exclude = ['size', 'chart', 'deliver', 'days', 'cm',
+              'inch', 'inthepicture', 'please', 'plz',
+              'measurement', 'ship', 'expedite', 'dimension',
+              'help', 'email', 'call', 'contact', 'question',
+              'quality', 'problem', 'madein', 'sizing', 'send',
+              'buyer', 'dryclean', 'weight', 'wash', 'check',
+              'pls', 'price', 'refer', 'policy', 'return',
+              'refund', 'onsale', 'question', 'machine',
+              'visit', 'waisttoknee', '"', 'trademark']
 
 #to_exclude = ['custom', 'buyer', 'Wecreatescomfortable']
 
@@ -16,7 +30,7 @@ from data_manager.preprocess import data_preprocessor as dp
 from utils_local import utils_local
 import random
 
-data_fname = 'data00.json'
+data_fname = 'data0.json'
 excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
 included_fname = 'data_manager/preprocess/included_phrases.pkl'
 

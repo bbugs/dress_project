@@ -16,7 +16,7 @@ included_fname = 'data_manager/preprocess/included_phrases.pkl'
 d = dp.SentenceRemover(excluded_fname, included_fname)
 excluded_sentences = d.excluded_sentences
 
-data0 = utils_local.load_data0(fname='data00.json')
+data0 = utils_local.load_data0(fname='data0.json')
 #i = 239 #1224  #357
 
 fname = 'clean_data_test.csv'

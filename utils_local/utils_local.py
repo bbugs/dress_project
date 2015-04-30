@@ -27,6 +27,28 @@ def remove_space(sentence_set):
     return new_set
 
 
+def verify_nfiles(path1, path2):
+    """
+    Verifty that the number of files in path1 and path2 are the same
+    This is useful for computing dsfit features from a set of images in path 1
+    to be stored in path 2
+    """
+
+    files1 = [f for f in os.listdir(path1) if not f.startswith(".")]
+    files2 = [f for f in os.listdir(path2) if not f.startswith(".")]
+
+    return len(files1) == len(files2)
+
+def verify_nfiles_recursively(path1, path2):
+
+    files1 = [f for f in os.listdir(path1) if not f.startswith(".")]
+    files2 = [f for f in os.listdir(path2) if not f.startswith(".")]
+
+    for f in files1:
+        p1 = path1 + f
+        p2 = path2 + f
+        verify_nfiles(p1, p2)
+    pass
 
 
 
@@ -73,7 +95,7 @@ def get_sentences(all_text, verbose=0):
 
 if __name__ == '__main__':
 
-    # see remove_using_keywords.py
+    # see populate_excluded_phrases_user_input.py
     pass
 
 

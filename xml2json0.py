@@ -88,5 +88,5 @@ for folder in folders:
 # with open('data1.json', 'wb') as fp:
 #     json.dump(data, fp)
 
-with open('data00.json', 'wb') as fp:
+with open('data0.json', 'wb') as fp:
     json.dump(data, fp, indent=4, sort_keys=True)
