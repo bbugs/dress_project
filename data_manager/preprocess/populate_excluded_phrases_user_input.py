@@ -30,7 +30,7 @@ from data_manager.preprocess import data_preprocessor as dp
 from utils_local import utils_local
 import random
 
-data_fname = 'data0.json'
+data_fname = 'dataset/data0.json'
 excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
 included_fname = 'data_manager/preprocess/included_phrases.pkl'
 
@@ -59,6 +59,11 @@ for dress in dresses:
     all_text = [title] + features + [editorial]
 
     processed_sents = utils_local.get_sentences(all_text, verbose=0)
+    # TODO: in get_sentences, we use nltik sentence tokenizer to split paragraphs into sentences
+    # however, since the data is so noisy, there are many instances where there are no spaces after
+    # the period, hence nltk does not recognize as a sentence and does not split.
+    # later, we can look into replacing periods followed by text like word1.word2 to be replace by
+    # a period and some space
 
     for sent in processed_sents:
         sent_list.append(sent)

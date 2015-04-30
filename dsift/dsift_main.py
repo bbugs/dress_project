@@ -54,7 +54,7 @@ def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False):
 
 if __name__ == '__main__':
 
-    data_fname = 'data0.json'
+    data_fname = 'dataset/data0.json'
     img_rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images/'
     dsift_rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/dsift_images/'
 
