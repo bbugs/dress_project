@@ -1,6 +1,5 @@
 """
-Create a dataset from the data0.json file, where now we remove dresses that contain
-zero descriptive sentnces.
+Create a dataset.json from the data0.json file, where now we remove dresses that are non-descriptive
 
 This time we check whether the sentence has been excluded.  If the sentence has been excluded,
 then we don't consider it for the dataset.
@@ -8,20 +7,25 @@ then we don't consider it for the dataset.
 
 import json
 from utils_local import utils_local
+import numpy as np
 
 from data_manager.preprocess.data_preprocessor import SentenceRemover
 excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
 included_fname = 'data_manager/preprocess/included_phrases.pkl'
 sr = SentenceRemover(excluded_fname, included_fname)
 
+
 def init_dress_dict():
     dress = {}
-    fields = ['imgid', 'asin', 'folder', 'url', 'brand', 'text']
+    fields = ['imgid', 'asin', 'folder', 'url', 'brand', 'text', 'split']
     for f in fields:
+        # imgid is an int
         if f == 'imgid':
             dress[f] = 0
+        # text is a list
         elif f == 'text':
             dress[f] = []
+        # everything else is a string (asin, folder, url, brand, split)
         else:
             dress[f] = ''
     return dress
@@ -35,6 +39,29 @@ data0 = utils_local.load_data0(fname='dataset/data0.json')
 data = {}
 data['dresses'] = []  # a list of dictionaries
 
+
+N = len(data0['dresses'])  # number of dresses
+test_val_split = np.random.choice(N, 2000, replace=False)  # randomly choose 2000 imgid for test and validations
+test_split = np.random.choice(test_val_split, 1000, replace=False)  # randomly choose 1000 for test. Rest is for validation
+
+
+
+
+
+
+# # sample from a bernoulli distribution N times
+# # toss a coin N times with prob. p of getting heads (1)
+# N = len(data0['dresess'])  # number of dresses
+# p = 0.8  # with probability p a dress is assigned to the train split
+# split = np.random.binomial(1, p, N)  # bernoulli is a binomial with only 1 trial, thus 1.
+#
+# # Make sure that we have at least 80% for training
+# while sum(split) < (p * N):
+#     split = np.random.binomial(1, p, N)
+#
+# assert sum(split) > (p * N)
+
+counter = 0
 for dress in data0['dresses']:
     #dress0 = data0['dresses'][i]
 
@@ -60,6 +87,7 @@ for dress in data0['dresses']:
     for sent in processed_sents:
         # print sent
         # print type(sent)
+        # check if sent is not empty
         if not sent:
             continue
         # remove sentences if they are just empty
@@ -82,7 +110,16 @@ for dress in data0['dresses']:
         new_dress['url'] = url
         new_dress['text'] = sents_string
 
-        data['dresses'].append(new_dress)
+        # assign a split
+        if imgid not in test_val_split:
+            new_dress['split'] = 'train'
+        else:
+            if imgid in test_split:
+                new_dress['split'] = 'test'
+            else:
+                new_dress['split'] = 'val'
+
+        data['dresses'].append(new_dress)  # add new dress to the list of dresses
 
     #print clean_sents
 
