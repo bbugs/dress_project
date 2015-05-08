@@ -1,4 +1,4 @@
-
+from data_manager.preprocess.data_preprocessor import get_sentences
 from utils_local import utils_local
 
 import json
@@ -40,7 +40,7 @@ for dress in data0['dresses']:
 
 
     # get list of sentences by breaking down the editorial into sentences and
-    clean_sents = utils_local.get_sentences(all_text)
+    clean_sents = get_sentences(all_text)
 
     sents_string = "<\%>".join(clean_sents)
 

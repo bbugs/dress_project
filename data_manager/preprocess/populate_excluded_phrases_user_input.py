@@ -9,6 +9,7 @@ Iterate over sent_list and ask the user for input if the sentence contains any w
 from the to_exclude list
 
 """
+from data_manager.preprocess.data_preprocessor import get_sentences
 
 
 to_exclude = ['size', 'chart', 'deliver', 'days', 'cm',
@@ -58,7 +59,7 @@ for dress in dresses:
 
     all_text = [title] + features + [editorial]
 
-    processed_sents = utils_local.get_sentences(all_text, verbose=0)
+    processed_sents = get_sentences(all_text, verbose=0)
     # TODO: in get_sentences, we use nltik sentence tokenizer to split paragraphs into sentences
     # however, since the data is so noisy, there are many instances where there are no spaces after
     # the period, hence nltk does not recognize as a sentence and does not split.

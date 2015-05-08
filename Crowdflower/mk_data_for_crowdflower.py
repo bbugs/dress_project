@@ -1,6 +1,7 @@
 
 import nltk
 import nltk.data
+from data_manager.preprocess.data_preprocessor import get_sentences
 from utils_local import utils_local
 import csv
 
@@ -42,7 +43,7 @@ for dress in data0['dresses'][0:100]:
 
     all_text = [title] + features + [editorial] + ["done"]
 
-    clean_sents = utils_local.get_sentences(all_text)
+    clean_sents = get_sentences(all_text)
     # convert sentences to string separated by " \n"
     str_sents = "\%".join(clean_sents).encode('utf-8')
     #str_sents = "\%".join(clean_sents)

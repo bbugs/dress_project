@@ -9,7 +9,8 @@ import json
 from utils_local import utils_local
 import numpy as np
 
-from data_manager.preprocess.data_preprocessor import SentenceRemover
+from data_manager.preprocess.data_preprocessor import SentenceRemover, get_sentences
+
 excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
 included_fname = 'data_manager/preprocess/included_phrases.pkl'
 sr = SentenceRemover(excluded_fname, included_fname)
@@ -80,7 +81,7 @@ for dress in data0['dresses']:
 
     # get list of sentences by breaking down the editorial into sentences and
     # adding the features and title
-    processed_sents = utils_local.get_sentences(all_text)
+    processed_sents = get_sentences(all_text)
 
 
     dress_sents = []

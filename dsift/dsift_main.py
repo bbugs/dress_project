@@ -23,7 +23,7 @@ def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False):
     data_fname points to a json file where
 
     """
-    data0 = utils_local.load_data0(fname=data_fname)
+    data0 = utils_local.load_data0(fname=data_fname)/
 
     for dress in data0['dresses']:
         folder = dress['folder']
