@@ -19,6 +19,7 @@ import pickle
 import nltk
 import zTextProcessing as zt
 from utils_local import utils_local
+import re
 
 
 to_include = ['neckline', 'aline', 'vneck', 'sheath', 'ruched', 'scoopneck',
@@ -191,17 +192,7 @@ class SentenceRemover():
         pickle.dump(self.included_sentences, sfile)
         sfile.close()
 
-if __name__ == '__main__':
 
-    excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
-    included_fname = 'data_manager/preprocess/included_phrases.pkl'
-
-    d = SentenceRemover(excluded_fname, included_fname)
-
-
-    s = 'squareneck'
-
-    print is_in_set(s)
 
 
 def get_sentences(all_text, verbose=0):
@@ -217,8 +208,16 @@ def get_sentences(all_text, verbose=0):
     sents = []  # clean sentences
     for item in all_text:
         # print item
+
+        # substitute all word1.word2 into word1. word2.
+        # consider symbols: /  )  .  : , ; ! ? }
+        new_item = re.sub(r'([/\).:,;!?\}])([^\s])', r'\1 \2', item)
+
+        # substitute word(word to word (word
+        new_item = re.sub(r'([^\s])([\(\{])', r'\1 \2', new_item)
+
         # tokenize into sentences
-        temp_sentences = sent_tokenizer.tokenize(item)
+        temp_sentences = sent_tokenizer.tokenize(new_item)
         for s in temp_sentences:
             #print s
             s1 = s.replace("<br />", "<br>")
@@ -244,3 +243,16 @@ def get_sentences(all_text, verbose=0):
             print '\n', s
 
     return clean_sents
+
+
+if __name__ == '__main__':
+
+    excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
+    included_fname = 'data_manager/preprocess/included_phrases.pkl'
+
+    d = SentenceRemover(excluded_fname, included_fname)
+
+
+    s = 'squareneck'
+
+    print is_in_set(s)

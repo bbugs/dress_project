@@ -70,7 +70,7 @@ for dress in dresses:
         sent_list.append(sent)
 
 print "sorting ..."
-sent_list.sort()
+#sent_list.sort()
 
 #print sent_list
 
@@ -83,7 +83,10 @@ counter = 0
 # only get input from sentences that contain words in to_exclude
 
 for sent in sent_list:
+    #print sent
     comp_sent = d.mk_sent_comparable(sent)
+    #print comp_sent
+    #raw_input("press any key to continue")
     if dp.is_in_set(comp_sent, to_exclude):
         d.get_user_input(sent, verbose=0)
         if counter % 101 == 0:
@@ -109,8 +112,6 @@ for sent in sent_list:
 # expected ship date:we will cost about 6-15 days to make for different dresses, if have any problems, please email us.
 # buyers must select their size from the size chart.
 # each customized item is unique.
-
-
 
 
 
