@@ -21,10 +21,9 @@ editorial_in = True
 features_in = False
 
 
-
-def init_dress_dict():
+def init_item_dict():
     dress = {}
-    fields = ['imgid', 'asin', 'img_filename', 'folder', 'url', 'brand', 'text', 'split']
+    fields = ['imgid', 'asin', 'img_filename', 'item_type', 'item_subtype', 'folder', 'url', 'brand', 'text', 'split']
     for f in fields:
         # imgid is an int
         if f == 'imgid':
@@ -32,23 +31,23 @@ def init_dress_dict():
         # text is a list
         elif f == 'text':
             dress[f] = []
-        # everything else is a string (asin, folder, url, brand, split)
+        # everything else is a string (asin, img_filename, item_type, folder, url, brand, split)
         else:
             dress[f] = ''
     return dress
 
-
-
-data0 = utils_local.load_data0(fname='dataset/data0.json')
+data0_dress = utils_local.load_data0(fname='dataset/data0.json')
 #i = 239 #1224  #357
+
 
 
 data = {}
 data['dresses'] = []  # a list of dictionaries
 
 
-N = len(data0['dresses'])  # number of dresses
-test_val_split = np.random.choice(N, 2000, replace=False)  # randomly choose 2000 imgid for test and validations
+N = len(data0_dress['dresses'])  # number of dresses
+
+test_val_split = np.random.choice(N, 5000, replace=False)  # randomly choose 2000 imgid for test and validations
 test_split = np.random.choice(test_val_split, 1000, replace=False)  # randomly choose 1000 for test. Rest is for validation
 
 
@@ -69,7 +68,7 @@ test_split = np.random.choice(test_val_split, 1000, replace=False)  # randomly c
 # assert sum(split) > (p * N)
 
 counter = 0
-for dress in data0['dresses']:
+for dress in data0_dress['dresses']:
     #dress0 = data0['dresses'][i]
 
     features = dress['features']  # list of strings
@@ -122,7 +121,7 @@ for dress in data0['dresses']:
     if dress_sents:
         sents_string = "<\%>".join(dress_sents)
 
-        new_dress = init_dress_dict()
+        new_dress = init_item_dict()
         new_dress['brand'] = brand
         new_dress['asin'] = asin
         new_dress['imgid'] = imgid
