@@ -17,13 +17,13 @@ import os
 
 
 
-def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False):
+def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=True):
     """
     Compute dense sift features for a all the images in the data_fname
     data_fname points to a json file where
 
     """
-    data0 = utils_local.load_data0(fname=data_fname)/
+    data0 = utils_local.load_data0(fname=data_fname)
 
     for dress in data0['dresses']:
         folder = dress['folder']
@@ -53,7 +53,8 @@ def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False):
             fi.write(asin + '\n')
 
 
-        if pic_show:
+        if True:
+            print "I am HERE"
             l, d = sift.read_features_from_file(dst_file)  # feature locations l, and descriptors d
             # l.shape  (273, 4)
             # d.shape  (273, 128)
@@ -61,6 +62,7 @@ def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False):
             im = np.array(Image.open(src_file))
             sift.plot_features(im, l, True)
             pl.show()
+            raw_input("press something to continue")
 
 
 
@@ -68,7 +70,8 @@ if __name__ == '__main__':
 
     data_fname = 'dataset/data0.json'
     img_rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images/'
-    dsift_rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/dsift_images/'
+    # dsift_rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/dsift_images/'
+    dsift_rpath = ''
 
     dsift_size = 40
     dsift_steps = 20
@@ -78,7 +81,7 @@ if __name__ == '__main__':
         os.mkdir(dsift_rpath)
 
     fi = open('dsift_errors.txt', 'w')
-    compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False)
+    compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=True)
     fi.close()
 
     # verify the number or files in img_rpath and dsift_rpath

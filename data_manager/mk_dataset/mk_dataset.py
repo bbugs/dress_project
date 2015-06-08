@@ -15,10 +15,16 @@ excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
 included_fname = 'data_manager/preprocess/included_phrases.pkl'
 sr = SentenceRemover(excluded_fname, included_fname)
 
+# indicate which parts to include in the dataset: title, editorial, features
+title_in = True
+editorial_in = True
+features_in = False
+
+
 
 def init_dress_dict():
     dress = {}
-    fields = ['imgid', 'asin', 'folder', 'url', 'brand', 'text', 'split']
+    fields = ['imgid', 'asin', 'img_filename', 'folder', 'url', 'brand', 'text', 'split']
     for f in fields:
         # imgid is an int
         if f == 'imgid':
@@ -75,7 +81,20 @@ for dress in data0['dresses']:
     folder = dress['folder']
     url = dress['url']
 
-    all_text = [title] + features + [editorial]
+    if title_in and not editorial_in and not features_in:
+        all_text = [title]
+
+    elif title_in and not editorial_in and features_in:
+        all_text = [title] + features
+
+    elif title_in and editorial_in and not features_in:
+        all_text = [title] + [editorial]
+
+    elif title_in and editorial_in and features_in:
+        all_text = [title] + features + [editorial]
+
+    else:
+        raise ValueError("Invalid setup!")
 
 
 
@@ -94,7 +113,7 @@ for dress in data0['dresses']:
         # remove sentences if they are just empty
         if sent.isspace():
             continue
-        # remove sentences to exclude
+        # remove sentences to exclude (previously marked as excluded sentences)
         new_sent = sr.mk_sent_comparable(sent)
         if new_sent in sr.excluded_sentences:
             continue
@@ -107,9 +126,10 @@ for dress in data0['dresses']:
         new_dress['brand'] = brand
         new_dress['asin'] = asin
         new_dress['imgid'] = imgid
-        new_dress['folder'] = folder
+        new_dress['folder'] = folder + '/'
         new_dress['url'] = url
         new_dress['text'] = sents_string
+        new_dress['img_filename'] = asin + '.jpg'
 
         # assign a split
         if imgid not in test_val_split:
@@ -124,7 +144,21 @@ for dress in data0['dresses']:
 
     #print clean_sents
 
+if title_in and not editorial_in and not features_in:
+    out_fname = 'dataset' + '_title' + '.json'
 
+elif title_in and not editorial_in and features_in:
+    out_fname = 'dataset' + '_title' + '_feat' + '.json'
 
-with open('dataset/dataset.json', 'wb') as fp:
+elif title_in and editorial_in and not features_in:
+    out_fname = 'dataset' + '_title' + '_edit' + '.json'
+
+elif title_in and editorial_in and features_in:
+    out_fname = 'dataset' + '_title' + '_edit' + '_feat' + '.json'
+
+else:
+    raise ValueError("Invalid setup!")
+
+out_fname = 'dataset/' + out_fname
+with open(out_fname, 'wb') as fp:
     json.dump(data, fp, indent=4, sort_keys=True)

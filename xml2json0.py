@@ -2,7 +2,8 @@
 
 Create initial json file
 
-INPUT: /Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images
+INPUT: /Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/DATASETS/dress_attributes/data/images
+
 Note: we use the images directory and not the xml directory because images have been cleaned for duplicates
 and they are guaranteed to have the image, whereas the xml does not know which images are not present
 
@@ -10,10 +11,11 @@ OUTPUT:  data0.json
 
 Notes:
 xml files live in
-/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml
+/Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/DATASETS/dress_attributes/data/xml
 
 images live in
-/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images
+/Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/DATASETS/dress_attributes/data/images
+
 
 
 """
@@ -38,10 +40,10 @@ def init_dress_dict():
 
 # get xml files for each directory
 # check directories for files
-r_xml_path = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/xml/'
+r_xml_path = '/Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/DATASETS/dress_attributes/data/xml/'
 folders = [f for f in os.listdir(r_xml_path) if not f.startswith(".")]
 
-r_img_path = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/images/'
+r_img_path = '/Users/susanaparis/Documents/Belgium/IMAGES_plus_TEXT/DATASETS/dress_attributes/data/images/'
 
 
 data = {}
@@ -88,5 +90,5 @@ for folder in folders:
 # with open('data1.json', 'wb') as fp:
 #     json.dump(data, fp)
 
-with open('data0.json', 'wb') as fp:
+with open('data1.json', 'wb') as fp:
     json.dump(data, fp, indent=4, sort_keys=True)
