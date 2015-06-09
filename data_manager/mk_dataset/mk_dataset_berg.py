@@ -67,7 +67,7 @@ def mk_new_item(item):
     new_item = init_item_dict()
     new_item['asin'] = asin
     new_item['brand'] = brand
-    new_item['folder'] = folder + '/'
+    new_item['folder'] = 'berg_attributes/data/' + folder + '/'
     new_item['img_filename'] = img_filename
     new_item['imgid'] = imgid
     new_item['item_type'] = item_type

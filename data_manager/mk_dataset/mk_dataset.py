@@ -3,6 +3,16 @@ Create a dataset.json from the data0.json file, where now we remove dresses that
 
 This time we check whether the sentence has been excluded.  If the sentence has been excluded,
 then we don't consider it for the dataset.
+
+inputs:
+title_in
+editorial_in
+features_in
+
+excluded_fname = 'data_manager/preprocess/excluded_phrases.pkl'
+included_fname = 'data_manager/preprocess/included_phrases.pkl'
+
+dataset/data0.json
 """
 
 import json
@@ -17,7 +27,7 @@ sr = SentenceRemover(excluded_fname, included_fname)
 
 # indicate which parts to include in the dataset: title, editorial, features
 title_in = True
-editorial_in = True
+editorial_in = False
 features_in = False
 
 
@@ -42,7 +52,7 @@ data0_dress = utils_local.load_data0(fname='dataset/data0.json')
 
 
 data = {}
-data['dresses'] = []  # a list of dictionaries
+data['items'] = []  # a list of dictionaries
 
 
 N = len(data0_dress['dresses'])  # number of dresses
@@ -68,6 +78,7 @@ test_split = np.random.choice(test_val_split, 1000, replace=False)  # randomly c
 # assert sum(split) > (p * N)
 
 counter = 0
+item_type = 'dress'
 for dress in data0_dress['dresses']:
     #dress0 = data0['dresses'][i]
 
@@ -120,15 +131,21 @@ for dress in data0_dress['dresses']:
 
     if dress_sents:
         sents_string = "<\%>".join(dress_sents)
+        #sents_string = "<\%>".join(dress_sents)
 
         new_dress = init_item_dict()
-        new_dress['brand'] = brand
         new_dress['asin'] = asin
-        new_dress['imgid'] = imgid
-        new_dress['folder'] = folder + '/'
-        new_dress['url'] = url
-        new_dress['text'] = sents_string
+        new_dress['brand'] = brand
+        new_dress['folder'] = 'dress_attributes/data/images/' + folder + '/'
         new_dress['img_filename'] = asin + '.jpg'
+        new_dress['imgid'] = imgid
+        new_dress['item_type'] = item_type
+        new_dress['text'] = sents_string
+        new_dress['url'] = url
+
+        # remove digits from folder
+        item_subtype = ''.join(i for i in folder if not i.isdigit())
+        new_dress['item_subtype'] = item_subtype
 
         # assign a split
         if imgid not in test_val_split:
@@ -139,21 +156,21 @@ for dress in data0_dress['dresses']:
             else:
                 new_dress['split'] = 'val'
 
-        data['dresses'].append(new_dress)  # add new dress to the list of dresses
+        data['items'].append(new_dress)  # add new dress to the list of dresses
 
     #print clean_sents
 
 if title_in and not editorial_in and not features_in:
-    out_fname = 'dataset' + '_title' + '.json'
+    out_fname = 'dataset_dress' + '_title' + '.json'
 
 elif title_in and not editorial_in and features_in:
-    out_fname = 'dataset' + '_title' + '_feat' + '.json'
+    out_fname = 'dataset_dress' + '_title' + '_feat' + '.json'
 
 elif title_in and editorial_in and not features_in:
-    out_fname = 'dataset' + '_title' + '_edit' + '.json'
+    out_fname = 'dataset_dress' + '_title' + '_edit' + '.json'
 
 elif title_in and editorial_in and features_in:
-    out_fname = 'dataset' + '_title' + '_edit' + '_feat' + '.json'
+    out_fname = 'dataset_dress' + '_all' + '.json'
 
 else:
     raise ValueError("Invalid setup!")

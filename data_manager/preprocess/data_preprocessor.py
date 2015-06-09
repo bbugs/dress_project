@@ -211,7 +211,9 @@ def get_sentences(all_text, verbose=0):
 
         # substitute all word1.word2 into word1. word2.
         # consider symbols: /  )  .  : , ; ! ? }
-        new_item = re.sub(r'([/\).:,;!?\}])([^\s])', r'\1 \2', item)
+        #new_item = re.sub(r'([/\).:,;!?\}])([^\s])', r'\1 \2', item)
+
+        new_item = re.sub(r"(\w[A-Z]|[a-z.])\.([^.)\s])", r"\1. \2", item)
 
         # substitute word(word to word (word
         new_item = re.sub(r'([^\s])([\(\{])', r'\1 \2', new_item)
