@@ -53,6 +53,7 @@ class DataProvider(object):
         return img_paths
 
     def get_split_ids(self):
+        pass
 
 
 
@@ -73,9 +74,11 @@ if __name__ == '__main__':
     #
     # print "number of dresses is: ", d.get_num_dress()
 
-    # d = DataProvider(dataset_fname='dataset/dataset_joint_title.json')
-    #
-    # d.get_img_paths(verbose=True)  # use this in the command line to write to file
+    root_path = '../../DATASETS/dress_attributes/data/json/'
+    fname = root_path + 'dataset_berg.json'
+    d = DataProvider(dataset_fname=fname)
+
+    d.get_img_paths(verbose=True)  # use this in the command line to write to file
 
     pass
 

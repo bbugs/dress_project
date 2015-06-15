@@ -22,19 +22,22 @@ f = open(fname)
 txt = f.readlines()
 f.close()
 
+out_fname = '../../DATASETS/dress_attributes/txt_represention/occurrence_matrix.txt'
+f_out = open(out_fname, 'w')
 
-# txt is one big string
+
+
+# split the string into a list
 line_list = txt[0].split('\r')
 
 # each line is of the form
 # 'B0009PDO0Y 0:2 1:1 5:1 17:1 ... \r '
-one_line = line_list[0]
-
-
 
 def get_word_id_and_freq(line):
-    """
-
+    """(str) -> str, str, str
+    input, line format: word_id:word_freq, for example:
+    0:2 1:1 5:1 17:1 ... \r '
+    output: '0', '2', '1:1 5:1 17:1 ... \r ''
     """
     word_id = None
     word_freq = None
@@ -52,31 +55,22 @@ def get_word_id_and_freq(line):
     return word_id, word_freq, advanced_line
 
 
-def feature_generator(one_line):
-    while one_line:
-        word_id, word_freq, one_line = get_word_id_and_freq(one_line)
-        yield word_id, word_freq
-
-
 n = len(line_list)  # number of items
-
-V = 100000  # assume a vocabulary of 100,000
-# convert to vector of size n x V
-txt_vec = np.zeros((n, V), type=int)
 
 for i in range(0, n):
     line = line_list[i]
-    s = line.find(' ')  # start of the first feature id
+    s = line.find(' ')  # end of the asin and start of the first feature id
     asin = line[0:s]
-    print asin
+    #print asin
     # advance line and add space at the end
     one_line = line[s + 1:] + ' '
     while one_line:
         word_id, word_freq, one_line = get_word_id_and_freq(one_line)
         #print word_id, word_freq
-        txt_vec[i, int(word_id)] = int(word_freq)
+        # txt_vec[i, int(word_id)] = int(word_freq)
+        f_out.write("%s\t%s\t%s\n" % (i, word_id, word_freq))
 
-np.savetxt('txt_vec.txt', txt_vec, delimiter=',')
+f_out.close()
 
 
 

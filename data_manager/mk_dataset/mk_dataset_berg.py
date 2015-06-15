@@ -8,6 +8,10 @@ import json
 from utils_local import utils_local
 import numpy as np
 
+from numpy.random import RandomState
+prng = RandomState(42)  # set the random state so that splits are the same
+
+root_path = '../../DATASETS/dress_attributes/data/json/'
 
 def init_item_dict():
     dress = {}
@@ -86,7 +90,8 @@ def mk_new_item(item):
             new_item['split'] = 'val'
     return new_item
 
-data0_berg = utils_local.load_data0(fname='../berg_project/data0_berg.json')
+fname = root_path + 'data0_berg.json'
+data0_berg = utils_local.load_data0(fname=fname)
 item_types = ['bags', 'ties', 'earrings', 'shoes']
 
 
@@ -100,13 +105,13 @@ for item_type in item_types:
     print "number of items in ", item_type, ": ", N
 
     N20 = int(0.2 * N)  # 20% of the data
-    test_val_split = np.random.choice(N, N20, replace=False)  # randomly choose 2000 imgid for test and validations
+    test_val_split = prng.choice(N, N20, replace=False)  # randomly choose 2000 imgid for test and validations
 
     print "len test val split", len(test_val_split)
     # print test_val_split
 
     N10 = int(0.1 * N)  # 10% of the data
-    test_split = np.random.choice(test_val_split, N10, replace=False)
+    test_split = prng.choice(test_val_split, N10, replace=False)
     print "len test split", len(test_split)
     #print test_split
 
@@ -119,8 +124,7 @@ for item_type in item_types:
 
 
 
-out_fname = 'dataset_berg.json'
-out_fname = 'dataset/' + out_fname
+out_fname = root_path + 'dataset_berg.json'
 with open(out_fname, 'wb') as fp:
     json.dump(data, fp, indent=4, sort_keys=True)
 
