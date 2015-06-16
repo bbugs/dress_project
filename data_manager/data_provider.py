@@ -38,6 +38,7 @@ class DataProvider(object):
         """
         """
         self.dataset = utils_local.load_data0(dataset_fname)
+
         return
 
     def get_img_paths(self, verbose=False):
@@ -52,8 +53,33 @@ class DataProvider(object):
             img_paths.append(img_path)
         return img_paths
 
-    def get_split_ids(self):
-        pass
+    def get_asins_split(self, target_split='train'):
+        asins = []
+        for item in self.dataset['items']:
+            asin = item['asin']
+            split = item['split']
+            if split == target_split:
+                asins.append(asin)
+        return asins
+
+    def get_ids_split(self, target_split='train'):
+        ids = []
+        for item in self.dataset['items']:
+            imgid = item['imgid']
+            split = item['split']
+            if split == target_split:
+                ids.append(imgid)
+        return ids
+
+    def get_asins(self):
+        asins = []
+        for item in self.dataset['items']:
+            asin = item['asin']
+            asins.append(asin)
+        return asins
+
+
+
 
 
 
@@ -65,6 +91,7 @@ class CnnProvider(object):
                  cnn_fname='../DATASETS/dress_attributes/cnn/cnn_dress_test.txt'):
         self.dataset = utils_local.load_data0(dataset_fname)
         self.cnn = np.loadtxt(cnn_fname)
+        return
 
 
 
@@ -78,7 +105,9 @@ if __name__ == '__main__':
     fname = root_path + 'dataset_berg.json'
     d = DataProvider(dataset_fname=fname)
 
-    d.get_img_paths(verbose=True)  # use this in the command line to write to file
+    print len(d.dataset)
+
+    # d.get_img_paths(verbose=True)  # use this in the command line to write to file
 
     pass
 
