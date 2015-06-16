@@ -83,15 +83,7 @@ class DataProvider(object):
 
 
 
-class CnnProvider(object):
-    """
 
-    """
-    def __init__(self, dataset_fname='dataset/dataset_dress_title.json',
-                 cnn_fname='../DATASETS/dress_attributes/cnn/cnn_dress_test.txt'):
-        self.dataset = utils_local.load_data0(dataset_fname)
-        self.cnn = np.loadtxt(cnn_fname)
-        return
 
 
 
