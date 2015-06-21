@@ -14,6 +14,7 @@ class CnnProvider(object):
     def __init__(self, cnn_feat_fname, dataset_fname, target_layer='fc7'):
         """
         Get cnn features
+        This is a test
         """
         self.cnn = np.loadtxt(cnn_feat_fname, delimiter=',')
         print type(self.cnn)
