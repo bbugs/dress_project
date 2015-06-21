@@ -11,7 +11,7 @@ class CnnProvider(object):
     """
 
     """
-    def __init__(self, cnn_feat_fname, dataset_fname):
+    def __init__(self, cnn_feat_fname, dataset_fname, target_layer='fc7'):
         """
         Get cnn features
         """
@@ -27,14 +27,16 @@ class CnnProvider(object):
 
         # print "number items dataset", len(self.dataset)
         assert self.n == len(self.dataset)
-        assert self.cnn.shape[0] == 4096  # num dimensions from cnn 7th layer
+        if target_layer == 'fc7':
+            assert self.cnn.shape[0] == 4096  # num dimensions from cnn 7th layer
 
 
         return
 
 
     def get_features_split(self, fout_name, target_split='train',
-                           include_val=False, verbose=False, save=False):
+                           include_val=False, verbose=False,
+                           transpose=True, save=False):
 
         ids_split = self.dp.get_ids_split(target_split=target_split)
 
@@ -49,31 +51,43 @@ class CnnProvider(object):
         for id in ids_split:
             if verbose:
                 print target_split, id
-            cnn_split[:, col] = self.cnn[:, id]
+            img_cnn = self.cnn[:, id]
+            # substitue NaNs with zeros
+            where_are_NaNs = np.isnan(img_cnn)
+            img_cnn[where_are_NaNs] = 0
+
+            cnn_split[:, col] = img_cnn
+
+
             col += 1
 
+        if transpose:
+            cnn_split = np.transpose(cnn_split)
+
         if save:
+            print "saving array"
             utils_local.savetxt_compact(fout_name, cnn_split)
             #np.savetxt(open(fout_name, 'w'), cnn_split, delimiter=',')
-
+            print "done saving array"
 
 
 
 
 if __name__ == '__main__':
     rpath = '../../DATASETS/dress_attributes/'
-    cnn_feat_fname = rpath + 'cnn/cnn_dress.txt'
+    target_layer = 'fc7'
+    cnn_feat_fname = rpath + 'cnn/cnn_dress_' + target_layer + '.txt'
 
     dataset_fname = rpath + 'data/json/dataset_dress_title.json'
-    c = CnnProvider(cnn_feat_fname, dataset_fname)
+    c = CnnProvider(cnn_feat_fname, dataset_fname, target_layer=target_layer)
 
     # save test features
-    fout_name = rpath + 'cnn/cnn_dress_test.txt'
+    fout_name = rpath + 'cnn/cnn_dress_' + target_layer + '_test.txt'
     print "getting test features"
     c.get_features_split(fout_name, target_split='test', verbose=True, save=True)
 
     # save train features
-    fout_name = rpath + 'cnn/cnn_dress_train.txt'
+    fout_name = rpath + 'cnn/cnn_dress_' + target_layer + '_train.txt'
     print "getting train features"
     c.get_features_split(fout_name, target_split='train', include_val=True, verbose=True, save=True)
 
