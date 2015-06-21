@@ -5,6 +5,7 @@ Process previously computed cnn
 from data_manager.data_provider import DataProvider as DP
 
 import numpy as np
+from utils_local import utils_local
 
 class CnnProvider(object):
     """
@@ -52,7 +53,8 @@ class CnnProvider(object):
             col += 1
 
         if save:
-            np.savetxt(open(fout_name, 'w'), cnn_split, delimiter=',')
+            utils_local.savetxt_compact(fout_name, cnn_split)
+            #np.savetxt(open(fout_name, 'w'), cnn_split, delimiter=',')
 
 
 

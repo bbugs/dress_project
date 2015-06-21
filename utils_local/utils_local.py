@@ -48,7 +48,16 @@ def verify_nfiles_recursively(path1, path2):
     pass
 
 
-
+def savetxt_compact(fname, x, fmt="%.6g", delimiter=','):
+    """
+    method may be used to save a numpy array compactly.
+    I used for saving the cnn matrices
+    http://stackoverflow.com/questions/24691755/how-to-format-in-numpy-savetxt-such-that-zeros-are-saved-only-as-0
+    """
+    with open(fname, 'w') as fh:
+        for row in x:
+            line = delimiter.join("0" if value == 0 else fmt % value for value in row)
+            fh.write(line + '\n')
 
 
 if __name__ == '__main__':
