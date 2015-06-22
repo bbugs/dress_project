@@ -53,6 +53,18 @@ class DataProvider(object):
             img_paths.append(img_path)
         return img_paths
 
+    def get_img_paths_splits(self, verbose=False, split='train'):
+        """
+        """
+        img_paths = []
+        for item in self.dataset['items']:
+            folder = item['folder']
+            img_path = folder + item['img_filename']
+            if verbose:
+                print img_path
+            img_paths.append(img_path)
+        return img_paths
+
     def get_asins_split(self, target_split='train'):
         asins = []
         for item in self.dataset['items']:
@@ -78,13 +90,19 @@ class DataProvider(object):
             asins.append(asin)
         return asins
 
+    def save_json_splits(self, splits, fout_name, save=False):
+        """splits is a set
 
-
-
-
-
-
-
+        """
+        split_dataset = {}
+        split_dataset['items'] = []
+        for item in self.dataset['items']:
+            split = item['split']
+            if split in splits:
+                split_dataset['items'].append(item)
+        if save:
+            with open(fout_name, 'wb') as fp:
+                json.dump(split_dataset, fp, indent=4, sort_keys=True)
 
 
 
@@ -94,12 +112,21 @@ if __name__ == '__main__':
     # print "number of dresses is: ", d.get_num_dress()
 
     root_path = '../../DATASETS/dress_attributes/data/json/'
-    fname = root_path + 'dataset_berg.json'
+    fname = root_path + 'dataset_dress_all.json'
     d = DataProvider(dataset_fname=fname)
 
     print len(d.dataset)
 
     # d.get_img_paths(verbose=True)  # use this in the command line to write to file
+
+
+    splits = {'train', 'val'}  # set of splits
+    fout_name = root_path + 'dataset_dress_all_train_val.json'
+    d.save_json_splits(splits, fout_name, save=True)
+
+    splits = {'test'}  # set of splits
+    fout_name = root_path + 'dataset_dress_all_test.json'
+    d.save_json_splits(splits, fout_name, save=True)
 
     pass
 
