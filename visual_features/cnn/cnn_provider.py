@@ -30,6 +30,8 @@ class CnnProvider(object):
         if target_layer == 'fc7':
             assert self.cnn.shape[0] == 4096  # num dimensions from cnn 7th layer
 
+        if target_layer == 'conv5':
+            assert self.cnn.shape[0] == 256 * 13 * 13  # num dimensions from conv5 layer
 
         return
 
@@ -75,7 +77,7 @@ class CnnProvider(object):
 
 if __name__ == '__main__':
     rpath = '../../DATASETS/dress_attributes/'
-    target_layer = 'fc7'
+    target_layer = 'conv5'
     cnn_feat_fname = rpath + 'cnn/cnn_dress_' + target_layer + '.txt'
 
     dataset_fname = rpath + 'data/json/dataset_dress_title.json'
