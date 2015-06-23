@@ -12,7 +12,7 @@ output:  pickle file
 import pickle
 
 from vocabularies.vocabulary import Vocabulary
-from setup import *
+import setup
 
 class VocabularyCreator(object):
     """
