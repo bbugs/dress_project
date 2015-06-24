@@ -11,37 +11,41 @@ output:  pickle file
 
 import pickle
 
+
 from vocabularies.vocabulary import Vocabulary
-import setup
+from visual_features.dsift.dsift_data_provider import dSiftDataProvider as dsp
+
+import sys
+sys.path.append('../../../myComputerVisionLibrary')
+sys.path.append('../../../myComputerVisionLibrary/pcv/')
+sys.path.append('../../../myComputerVisionLibrary/pcv/vocabularies/')
+
+import matplotlib
+matplotlib.use("AGG")
+import matplotlib.pyplot as pylab
 
 class VocabularyCreator(object):
     """
 
     """
 
-    def __init__(self, sift_paths_fname,
-                 sample=False, img_sample=100,
-                 prefix='../../DATASETS/'):
+    def __init__(self, dsift_batch_fname, verbose=True):
         """
         input:
-        sift_paths_fname: file with paths to sift or dsfit features
-        sample indicates whether you want to consider only a sample of the data
-        img_sample indicates the number of images that you want to consider
+        dsift_all_imgs_fname: file where all dsift are saved
         """
 
-        f = open(sift_paths_fname, 'r')
-        self.sift_paths = [prefix + p.replace("\n", "") for p in f.readlines()]
-        f.close()
 
-        if sample:
-            self.sift_paths = self.sift_paths[0:img_sample]
+        self.dsift_batch = ds.get_dsift_batch_imgs(dsift_batch_fname)
+        if verbose:
+            print "number of descriptors", self.dsift_batch.shape[0]
 
         return
 
     def create_vocabulary(self, nbr_words, subsample_rate=10):
         self.voc = Vocabulary('dress_visual_vocabulary_%s' % nbr_words)
         print "Training vocabulary"
-        self.voc.train(self.sift_paths, nbr_words, subsample_rate)  # featlist contains the path to the .sift files.
+        self.voc.train_batch(self.dsift_batch, nbr_words, subsample_rate)
 
     def save_vocabulary(self, fout_name):
         # saving vocabulary using pickle
@@ -54,12 +58,22 @@ class VocabularyCreator(object):
 
 if __name__ == '__main__':
 
-    rpath = '../../DATASETS/dress_attributes/data/paths/'
-    sift_paths_fname = rpath + 'paths_dress_dsift_train_val.txt'
+    rpath = '../../DATASETS/dress_attributes/dsift_images/'
+
+    split = 'train_val'
+    dataset_fname = '../../DATASETS/dress_attributes/data/json/dataset_dress_all_%s.json' % split
+    ds = dsp(dataset_fname=dataset_fname)
+
+
+    size, steps = (90, 40)
+    dsift_batch_imgs_fname = rpath + 'dsift_dress_%s_size%s_steps%s.txt' % (split, size, steps)
+
     # sift_paths_fname = rpath + 'path_error.txt'
-    vc = VocabularyCreator(sift_paths_fname, sample=False, img_sample=100)
-    n_words = 5
-    vc.create_vocabulary(n_words, subsample_rate=10)
-    fout_name = '../../DATASETS/dress_attributes/dsift_images/dress_dsift_nwords_' + str(n_words) + '_vocab.pkl'
-    vc.save_vocabulary(fout_name)
+    vc = VocabularyCreator(dsift_batch_imgs_fname)
+
+    nwords = [20, 50, 100, 200, 500, 750, 1000]
+    for n in nwords:
+        vc.create_vocabulary(n, subsample_rate=500)
+        fout_name = '../../DATASETS/dress_attributes/dsift_images/dress_dsift_nwords%s_size%s_steps%s_vocab.pkl' % (n, size, steps)
+        vc.save_vocabulary(fout_name)
 
