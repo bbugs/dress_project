@@ -76,7 +76,7 @@ if __name__ == '__main__':
     data_fname = '../../DATASETS/dress_attributes/data/json/dataset_dress_all.json'
     img_rpath = '../../DATASETS/'
     # dsift_rpath = '/Users/susanaparis/Documents/Belgium/PARIS/Amazon/scripts/dresses/data/dsift_images/'
-    dsift_rpath = '../../DATASETS/dress_attributes/dsift_images/'
+    dsift_rpath = '../../DATASETS/dress_attributes/vis_representation/dsift_images_sandbox/'
 
     dsift_size = 90
     dsift_steps = 40
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         os.mkdir(dsift_rpath)
 
     fi = open('dsift_errors.txt', 'w')
-    compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=False)
+    compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=True)
     fi.close()
 
     # verify the number or files in img_rpath and dsift_rpath

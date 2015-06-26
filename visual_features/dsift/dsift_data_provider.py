@@ -31,7 +31,7 @@ class dSiftDataProvider(object):
                  dataset_fname='../../DATASETS/dress_attributes/data/json/dataset_dress_all_train_val.json'):
 
         """
-        n_img_sample:  number of random images to use
+        n_img_sample:  number of random images to use.  If none, use all images
 
         """
 
@@ -51,7 +51,7 @@ class dSiftDataProvider(object):
     def generate_dsfit_paths(self, prefix='../../DATASETS/', size=90, steps=40, verbose=False):
         for path in self.img_paths:
             dsift_path = path.replace('data/images',
-                                      'dsift_images/size%s_steps%s' % (size, steps))
+                                      '/vis_representation/dsift_images/size%s_steps%s' % (size, steps))
             dsift_path = dsift_path.replace('.jpg', '.dsift')
             dsift_path = prefix + dsift_path
             self.dsift_paths.append(dsift_path)
@@ -60,6 +60,10 @@ class dSiftDataProvider(object):
 
 
     def write_dsift_to_file(self, out_fname=''):
+        """
+        Write all dsfit descriptors to one single file
+        """
+
         f = open(out_fname, 'w')
         for path in self.dsift_paths:
             print path
@@ -81,6 +85,7 @@ class dSiftDataProvider(object):
         f.close()
 
     def get_dsift_batch_imgs(self, fname):
+        # read all dsfit descriptors from a single file
         print "loading dsift descriptors"
         return np.loadtxt(fname, delimiter=',', dtype=np.uint16)
 
@@ -96,6 +101,16 @@ def savetxt_compact(fh, x, fmt="%.6g", delimiter=','):
     for row in x:
         line = delimiter.join("0" if value == 0 else fmt % value for value in row)
         fh.write(line + '\n')
+
+
+def get_dsift_paths_from_file(fname='../../DATASETS/dress_attributes/data/paths_dsift/paths_dress_dsift_train_val_size90_steps40.txt',
+                              prefix='../../DATASETS/'):
+    # just retrieve the paths from a previously computed file
+    with open(fname, 'r') as f:
+        paths = [prefix + l.replace("\n", '') for l in f.readlines()]
+    return paths
+
+
 
 
 if __name__ == '__main__':
