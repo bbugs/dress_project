@@ -2,7 +2,7 @@
 import json
 from utils_local import utils_local
 import numpy as np
-
+import random
 
 class DataStats(object):
 
@@ -41,17 +41,31 @@ class DataProvider(object):
 
         return
 
-    def get_img_paths(self, verbose=False):
+    def get_img_paths(self, prefix='../../DATASETS/', verbose=False):
         """
         """
         img_paths = []
         for item in self.dataset['items']:
             folder = item['folder']
-            img_path = folder + item['img_filename']
+            img_path = prefix + folder + item['img_filename']
             if verbose:
                 print img_path
             img_paths.append(img_path)
         return img_paths
+
+    def get_random_img_paths(self, n, prefix='../../DATASETS/'):
+        """
+        Get n random img paths
+        """
+        items = random.sample(self.dataset['items'], n)
+        img_paths = []
+        for item in items:
+            folder = item['folder']
+            img_path = prefix + folder + item['img_filename']
+            img_paths.append(img_path)
+        return img_paths
+
+
 
     def get_asins_split(self, target_split='train'):
         asins = []
