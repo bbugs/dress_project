@@ -23,6 +23,7 @@ def compute_dsift(data_fname, img_rpath, dsift_rpath, pic_show=True):
     data_fname points to a json file where
 
     """
+    # TODO:  Change input to take paths of images using the data_provider
     data0 = utils_local.load_data0(fname=data_fname)
 
     for dress in data0['items']:

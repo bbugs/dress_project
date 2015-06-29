@@ -59,7 +59,7 @@ class ColorDataProvider(object):
 
         for path in paths:
             # print path
-            color = read_features_from_file(path)
+            color = read_features_from_file(path, delimiter=' ')
             # print "color type", type(color)
             print "color shape", color.shape
 
@@ -75,16 +75,16 @@ class ColorDataProvider(object):
 
 
 
-def read_features_from_file(filename, desc_dim=3):
+def read_features_from_file(filename, delimiter=',', desc_dim=3):
     """
     Read feature descriptors and return in matrix form.
     desc_dim = 3.  Because color is expressed in rgb or hsv.
     """
 
     print filename
-    features = np.loadtxt(filename)
+    features = np.loadtxt(filename, delimiter=delimiter)
 
-    if features.shape[0] == 0:
+    if len(features.shape) < 2:
         features = np.zeros((1, desc_dim))
         print "color descriptor not found", filename
 

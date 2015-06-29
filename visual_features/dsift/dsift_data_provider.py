@@ -61,7 +61,7 @@ class dSiftDataProvider(object):
 
     def write_dsift_to_file(self, out_fname=''):
         """
-        Write all dsfit descriptors to one single file
+        Write ALL dsfit descriptors to one single file
         """
 
         f = open(out_fname, 'w')
@@ -78,7 +78,7 @@ class dSiftDataProvider(object):
                 raw_input("uint16 is not enough")
             descriptors = descriptors.astype(np.uint16)
 
-            savetxt_compact(f, descriptors)
+            savetxt_compact(f, descriptors) # pass file handle to function
             # print descriptors.shape
             # print type(descriptors)
 
